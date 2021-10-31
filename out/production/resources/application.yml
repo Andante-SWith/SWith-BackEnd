@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/swith?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
     username: root
-    password: min970528!
+    password:
   jpa:
     show-sql: true
     hibernate:

@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Builder
-@NoArgsConstructor
 @Slf4j
 public class ResponseDto<T> {
 

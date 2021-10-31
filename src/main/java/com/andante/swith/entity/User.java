@@ -1,25 +1,37 @@
 package com.andante.swith.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+@Getter
+@Builder
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue
     private Long id;
     private String password;
+
+    @Column(unique = true)
     private String email;
     private String nickname;
 
@@ -27,31 +39,58 @@ public class User {
     @JoinColumn(name = "studyroom_id")
     private Studyroom studyroom;
 
-    //추가 -> 객체지향적으로 .add하려면 양방향 설정을 해줘야함. ***중요!! DB단에서는 외래키로 연관관계가 무조건 양방향으로 설정되지만 객체는 단방향 두개로 설정된 것이므로 객체지향적으로 접근하려면 무조건 양방향으로 하는게 맞음.
-    // 근데 단방향으로 oneToMany 설정을 해줘도 되지만, 먼저 김영한님은 일대다 단방향 매핑은 이러한 단점이 있다고 했음.
-    //
-    //엔티티가 관리하는 외래 키가 다른 테이블에 있음 (Many에 외래키 존재)
-    //연관관계 관리를 위해 추가로 update sql 실행 (성능상 큰 차이는 없다)
-    //개발을 하다 보면 B를 만졌는데 A도 update sql문이 나가니 헷갈린다.
-    //그래서 필요하다면 일대다 보다는 양방향 관계로 한다. ( B는 A가 필요 없더라도, 객체 지향적으로 손해를 보는 거 같지만) - 트레이드 오프
-    //orphanRemoval-> 자식을 수정하면 새로운 자식 insert 후 update 기존의 자식은 null로 update한다. orphanRemoval = true는 null로된 자식을 자동으로 delete해준다.
+    @NotNull
+    @Column(nullable = false)
+    private Timestamp createdDate;
+
+    @ColumnDefault("0")
+    private Integer deleted;
+
+    @NotNull
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private Short banned;
+
+    private Timestamp ban_date;
+
+    @OneToOne(mappedBy = "user")
+    private Studyplanner studyplanner;
 
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<User_Studyroom_History> user_studyroom_historys = new ArrayList<>();
 
-    //https://stackoverflow.com/questions/44331694/following-followers-in-spring
-    @OneToMany(mappedBy="to")
-    private List<Follows> followers;
+    @OneToMany(mappedBy="to", cascade = ALL, orphanRemoval = true)
+    private List<Follow> followers = new ArrayList<>();
 
-    @OneToMany(mappedBy="from")
-    private List<Follows> following;
+    @OneToMany(mappedBy="from", cascade = ALL, orphanRemoval = true)
+    private List<Follow> following = new ArrayList<>();
 
-    private Timestamp createdDate;
+    @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
+    private List<Board> boards = new ArrayList<>();
 
-    private Integer deleted;
-    private Integer reportCount;
-    private Timestamp ban_date;
-    private Integer ban_status;
+    @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy="to", cascade = ALL, orphanRemoval = true)
+    private List<Notice> toNotices = new ArrayList<>();
+
+    @OneToMany(mappedBy="from", cascade = ALL, orphanRemoval = true)
+    private List<Notice> fromNotices = new ArrayList<>();
+
+    @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
+    private List<Statistic> statistics = new ArrayList<>();
+
+    @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
+    private List<Recommand> recommands = new ArrayList<>();
+
+    @OneToMany(mappedBy="reportingUser", cascade = ALL, orphanRemoval = true)
+    private List<Report> reportings = new ArrayList<>();
+
+    @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
+    private List<Report> reporteds = new ArrayList<>();
 
     public void setUserStudyroomHistory(Studyroom studyroom) {
         User_Studyroom_History user_studyroom_history = new User_Studyroom_History(this, studyroom);
@@ -61,5 +100,41 @@ public class User {
     public void setStudyroom(Studyroom studyroom) {
         this.studyroom = studyroom;
         studyroom.getUsers().add(this);
+    }
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
