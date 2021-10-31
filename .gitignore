@@ -1,2 +1,2 @@
-.DS_store
-application.yml
+*.DS_store
+*application.yml
