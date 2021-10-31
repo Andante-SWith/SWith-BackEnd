@@ -53,19 +53,6 @@ public class User {
     private Timestamp ban_date;
     private Integer ban_status;
 
-
-//    public User(String password, String email, String nickname, Studyroom studyroom, Timestamp createdDate, Integer deleted, Integer reportCount, Timestamp ban_date, Integer ban_status) {
-//        this.password = password;
-//        this.email = email;
-//        this.nickname = nickname;
-//        this.studyroom = studyroom;
-//        this.createdDate = createdDate;
-//        this.deleted = deleted;
-//        this.reportCount = reportCount;
-//        this.ban_date = ban_date;
-//        this.ban_status = ban_status;
-//    }
-
     public void setUserStudyroomHistory(Studyroom studyroom) {
         User_Studyroom_History user_studyroom_history = new User_Studyroom_History(this, studyroom);
         getUser_studyroom_historys().add(user_studyroom_history);
