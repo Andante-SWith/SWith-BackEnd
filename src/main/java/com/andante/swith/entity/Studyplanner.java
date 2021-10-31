@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -15,21 +18,16 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-public class User_Studyroom_History {
+public class Studyplanner {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "studyroom_id")
-    private Studyroom studyroom;
-
-    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public User_Studyroom_History(User user, Studyroom studyroom) {
-        this.studyroom = studyroom;
-        this.user = user;
-    }
+    @OneToMany(mappedBy = "studyplanner")
+    private List<Studyplanner_Task> studyplanner_Tasks = new ArrayList<>();
 }

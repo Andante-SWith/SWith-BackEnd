@@ -6,11 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -18,16 +16,17 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-public class Certification {
+public class Studyroom_Hashtag {
 
     @Id
     @GeneratedValue
     private Long id;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "studyroom_id")
+    private Studyroom studyroom;
+
     @NotNull
     @Column(nullable = false)
-    private String email;
-
-    @Column(length = 10, nullable = false)
-    private String certificationCode;
+    private String hashtag;
 }

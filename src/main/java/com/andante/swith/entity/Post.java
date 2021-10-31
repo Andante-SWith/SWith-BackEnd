@@ -22,19 +22,27 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-public class Studyroom {
+public class Post {
 
     @Id
     @GeneratedValue
     private Long id;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     @NotNull
     @Column(nullable = false)
     private String title;
 
     @NotNull
-    @Column(length = 10, nullable = false)
-    private String purpose;
+    @Column(length = 1000, nullable = false)
+    private String contents;
 
     @NotNull
     @Column(nullable = false)
@@ -43,31 +51,14 @@ public class Studyroom {
     @NotNull
     @Column(nullable = false)
     @ColumnDefault("0")
-    private Short secret;
+    private Integer viewCount;
 
-    private String password;
+    @OneToMany(mappedBy="post", cascade = ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
-    @NotNull
-    @Column(nullable = false)
-    private String notice;
-
-    @NotNull
-    @Column(nullable = false)
-    private Timestamp endDate;
-
-    @NotNull
-    @Column(nullable = false)
-    private Integer maxUserCount;
-
-    @OneToMany(mappedBy = "studyroom")
-    private List<User> users = new ArrayList<>();
-
-    @OneToMany(mappedBy = "studyroom", cascade = ALL, orphanRemoval = true)
-    private List<Studyroom_Hashtag> hashtags = new ArrayList<>();
-
-    @OneToMany(mappedBy = "studyroom", cascade = ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="post", cascade = ALL, orphanRemoval = true)
     private List<Recommand> recommands = new ArrayList<>();
 
-    @OneToMany(mappedBy="studyroom", cascade = ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="post", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
 }

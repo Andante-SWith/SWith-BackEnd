@@ -1,11 +1,11 @@
 package com.andante.swith.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.sun.istack.NotNull;
+import lombok.*;
 
 import javax.persistence.*;
+
+import java.sql.Timestamp;
 
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
@@ -15,12 +15,17 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-public class User_Studyroom_History {
+public class Recommand {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "studyroom_id")
     private Studyroom studyroom;
 
@@ -28,8 +33,8 @@ public class User_Studyroom_History {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public User_Studyroom_History(User user, Studyroom studyroom) {
-        this.studyroom = studyroom;
-        this.user = user;
-    }
+    @NotNull
+    @Column(nullable = false)
+    private Timestamp createdDate;
+
 }
