@@ -12,12 +12,15 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@AllArgsConstructor
 public class User_Studyroom_History {
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     private Long id;
+
+    public User_Studyroom_History(User user, Studyroom studyroom) {
+        this.studyroom = studyroom;
+        this.user = user;
+    }
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "studyroom_id")
