@@ -19,16 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @Rollback(value = false)
 class EntityTest {
 
-    @Autowired
-    EntityManager em;
+    @Autowired EntityManager em;
     User user1 = new User();
     User user2 = new User();
     Studyroom studyroom1 = new Studyroom();
-//    Timestamp t1;
-//    @BeforeEach
-//    public void before(){
-//        t1 = new Timestamp(System.currentTimeMillis());
-//    }
 
     @Test
     public void saveMember() {
@@ -39,6 +33,8 @@ class EntityTest {
         em.persist(user2);
         em.persist(studyroom1);
         studyroom1.getUsers().add(user2);
+        user1.setUserStudyroomHistory(studyroom1);
+//        em.remove(user1);
 
     }
 //    @Test
