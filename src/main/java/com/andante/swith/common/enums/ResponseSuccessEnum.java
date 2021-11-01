@@ -7,9 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ResponseSuccessEnum implements EnumType {
 
-    SUCCESS("0000","OK");
+    SUCCESS("200","OK");
 
-    private String code;
+    private String status;
     private String message;
 
     @Override

@@ -4,7 +4,7 @@ public interface EnumType {
 
     String getId();
 
-    String getCode();
+    String getStatus();
 
     String getMessage();
 }

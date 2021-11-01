@@ -12,25 +12,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ResponseDto<T> {
 
-    private String code;
+    private String status;
     private String message;
     private T data;
 
     public static <T> ResponseDto<T> success(T data) {
         ResponseDto<T> response =
-                ResponseDto.<T>builder().code(ResponseSuccessEnum.SUCCESS.getCode())
+                ResponseDto.<T>builder().status(ResponseSuccessEnum.SUCCESS.getStatus())
                         .message(ResponseSuccessEnum.SUCCESS.getMessage()).data(data).build();
         log.info("Success API Response: {}", response.toString());
         return response;
     }
 
-    public static <T> ResponseDto<T> fail(String code, String message) {
-        ResponseDto<T> response = ResponseDto.<T>builder().code(code).message(message).build();
+    public static <T> ResponseDto<T> fail(String status, String message) {
+        ResponseDto<T> response = ResponseDto.<T>builder().status(status).message(message).build();
         log.error("Failed API Response: {}", response.toString());
         return response;
     }
 
     public static <T> ResponseDto<T> fail(ResponseFailEnum responseFail) {
-        return fail(responseFail.getCode(), responseFail.getMessage());
+        return fail(responseFail.getStatus(), responseFail.getMessage());
     }
 }

@@ -15,18 +15,4 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-//    private static String getSHA256(String src) {
-//        String sha256 = "";
-//        try {
-//            MessageDigest md = MessageDigest.getInstance("SHA-256");
-//            md.update(src.getBytes());
-//            byte[] byteData = md.digest();
-//            sha256 = Hex.encodeHexString(byteData);
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//            sha256 = null;
-//        }
-//        return sha256;
-//    }
-
 }
