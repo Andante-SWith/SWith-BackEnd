@@ -1,5 +1,6 @@
 package com.andante.swith.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -29,10 +30,18 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotNull
+    @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
-    @Column(unique = true)
+    @NotNull
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @NotNull
+    @Column(nullable = false)
     private String nickname;
 
     @ManyToOne(fetch = LAZY)
@@ -43,8 +52,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Timestamp createdDate;
 
+    @NotNull
+    @Column(nullable = false)
     @ColumnDefault("0")
-    private Integer deleted;
+    private Short deleted;
 
     @NotNull
     @Column(nullable = false)
@@ -136,5 +147,13 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

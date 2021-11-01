@@ -8,6 +8,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -37,10 +38,17 @@ public class CertificationService {
     }
 
     public Long certificationRegister(String email, String certificationCode) {
-        return certificationRepository.save(Certification.builder()
-                .email(email)
-                .certificationCode(certificationCode)
-                .build()).getId();
+        Optional<Certification> certification = certificationRepository.findByEmail(email);
+        if(certification.isPresent()==true) {
+            certification.get().changeCertificationCode(certificationCode);
+            return certificationRepository.save(certification.get()).getId();
+        }
+        else {
+            return certificationRepository.save(Certification.builder()
+                    .email(email)
+                    .certificationCode(certificationCode)
+                    .build()).getId();
+        }
     }
 
     public Boolean selectCertificationByEmail(String email, String certificationCode) {

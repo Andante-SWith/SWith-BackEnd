@@ -30,4 +30,8 @@ public class Certification {
 
     @Column(length = 10, nullable = false)
     private String certificationCode;
+
+    public void changeCertificationCode(String certificationCode) {
+        this.certificationCode = certificationCode;
+    }
 }

@@ -12,7 +12,7 @@ public enum ResponseFailEnum implements EnumType {
     LOGIN_ERROR("-3", "이메일 또는 비밀번호가 틀립니다.");
 
 
-    private String code;
+    private String status;
     private String message;
 
     @Override
