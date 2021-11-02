@@ -70,4 +70,17 @@ public class Studyroom {
 
     @OneToMany(mappedBy="studyroom", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
+
+    public void createHashtag(){
+        this.hashtags = new ArrayList<>();
+    }
+
+    public void updateStudyroom(String title, String purpose, Short secret, String password, String notice, Timestamp endDate) {
+        this.title = title;
+        this.purpose = purpose;
+        this.secret = secret;
+        this.password = password;
+        this.notice = notice;
+        this.endDate = endDate;
+    }
 }
