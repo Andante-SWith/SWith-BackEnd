@@ -43,6 +43,7 @@ public class Comment {
     @Column(nullable = false)
     private Timestamp createdDate;
 
+    @Builder.Default
     @OneToMany(mappedBy="comment", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
 }

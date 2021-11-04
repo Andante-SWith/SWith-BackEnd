@@ -40,9 +40,9 @@ public class Follow {
     @ColumnDefault("0")
     private Short approve;
 
-    public Follow(User from, User to) {
-        this.from = from;
-        this.to = to;
-        this.createdDate = new Timestamp(System.currentTimeMillis());
-    }
+//    public Follow(User from, User to) {
+//        this.from = from;
+//        this.to = to;
+//        this.createdDate = new Timestamp(System.currentTimeMillis());
+//    }
 }

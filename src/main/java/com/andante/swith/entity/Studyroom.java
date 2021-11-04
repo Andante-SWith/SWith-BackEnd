@@ -59,15 +59,19 @@ public class Studyroom {
     @Column(nullable = false)
     private Integer maxUserCount;
 
+    @Builder.Default
     @OneToMany(mappedBy = "studyroom")
     private List<User> users = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "studyroom", cascade = ALL, orphanRemoval = true)
     private List<Studyroom_Hashtag> hashtags = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "studyroom", cascade = ALL, orphanRemoval = true)
     private List<Recommand> recommands = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="studyroom", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
 

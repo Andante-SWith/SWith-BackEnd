@@ -36,9 +36,11 @@ public class Board {
     @Column(nullable = false)
     private Timestamp createdDate;
 
+    @Builder.Default
     @OneToMany(mappedBy="board", cascade = ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="board", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
 }

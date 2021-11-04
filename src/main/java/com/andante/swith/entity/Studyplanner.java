@@ -28,6 +28,7 @@ public class Studyplanner {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder.Default
     @OneToMany(mappedBy = "studyplanner")
     private List<Studyplanner_Task> studyplanner_Tasks = new ArrayList<>();
 }

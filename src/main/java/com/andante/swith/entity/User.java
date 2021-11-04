@@ -67,39 +67,51 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user")
     private Studyplanner studyplanner;
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<User_Studyroom_History> user_studyroom_historys = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="to", cascade = ALL, orphanRemoval = true)
     private List<Follow> followers = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="from", cascade = ALL, orphanRemoval = true)
     private List<Follow> following = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Board> boards = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="to", cascade = ALL, orphanRemoval = true)
     private List<Notice> toNotices = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="from", cascade = ALL, orphanRemoval = true)
     private List<Notice> fromNotices = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Statistic> statistics = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Recommand> recommands = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="reportingUser", cascade = ALL, orphanRemoval = true)
     private List<Report> reportings = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
 

@@ -53,12 +53,15 @@ public class Post {
     @ColumnDefault("0")
     private Integer viewCount;
 
+    @Builder.Default
     @OneToMany(mappedBy="post", cascade = ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="post", cascade = ALL, orphanRemoval = true)
     private List<Recommand> recommands = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy="post", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
 }
