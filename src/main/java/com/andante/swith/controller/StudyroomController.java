@@ -112,7 +112,5 @@ public class StudyroomController {
                 .body(ResponseDto.success(null));
     }
 
-
-
 }
 
