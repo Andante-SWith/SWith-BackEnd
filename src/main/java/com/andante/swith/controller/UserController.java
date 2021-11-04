@@ -79,6 +79,7 @@ public class UserController {
     public ResponseEntity<ResponseDto> updateUser(@PathVariable("user_id") Long userId, @RequestBody Map<String,String> param) {
         User user = userRepository.findById(userId).get();
 
+        //기존의 비밀번호랑 같은지 다른지랑  닉네임만 변경할 수 있도록 로직 넣기
 
         user.changePassword(passwordEncoder.encode(param.get("password")));
         user.changeNickname(param.get("nickname"));

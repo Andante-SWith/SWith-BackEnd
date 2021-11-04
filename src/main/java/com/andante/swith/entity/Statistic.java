@@ -1,5 +1,6 @@
 package com.andante.swith.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ public class Statistic {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -36,4 +38,12 @@ public class Statistic {
     @NotNull
     @Column(nullable = false)
     private Date date;
+
+    public void addStudyTime(Time studyTime) {
+        int hour=0, minute=0, second=0;
+        hour=Integer.parseInt(this.studyTime.toString().substring(0,2))+Integer.parseInt(studyTime.toString().substring(0,2));
+        minute=Integer.parseInt(this.studyTime.toString().substring(3,5))+Integer.parseInt(studyTime.toString().substring(3,5));
+        second=Integer.parseInt(this.studyTime.toString().substring(6,8))+Integer.parseInt(studyTime.toString().substring(6,8));
+        this.studyTime=Time.valueOf(hour+":"+minute+":"+second);
+    }
 }

@@ -30,26 +30,15 @@ public class Studyplanner_Task {
 
     @NotNull
     @Column(nullable = false)
-    private String taskTitle;
-
-    @NotNull
-    @Column(nullable = false)
     private String taskDescription;
 
     @NotNull
     @Column(nullable = false)
-    private Timestamp startDate;
-
-    @NotNull
-    @Column(nullable = false)
-    private Timestamp endDate;
+    private Timestamp date;
 
     @NotNull
     @Column(nullable = false)
     @ColumnDefault("0")
     private Short complete;
 
-    @NotNull
-    @Column(nullable = false)
-    private String color;
 }
