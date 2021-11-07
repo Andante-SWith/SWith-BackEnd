@@ -79,16 +79,25 @@ public class UserController {
     public ResponseEntity<ResponseDto> updateUser(@PathVariable("user_id") Long userId, @RequestBody Map<String,String> param) {
         User user = userRepository.findById(userId).get();
 
-        //기존의 비밀번호랑 같은지 다른지랑  닉네임만 변경할 수 있도록 로직 넣기
-        if (!param.get("beforePassword").equals("")&&!passwordEncoder.matches(param.get("beforePassword"), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDto.fail("400", "올바르지 않은 인증번호"));
+        //닉네임만 수정
+        if(param.get("beforePassword").equals("")&&param.get("password").equals("")) {
+            user.changeNickname(param.get("nickname"));
+            userRepository.save(user);
+            return ResponseEntity.ok()
+                    .body(ResponseDto.success(null));
         }
-        user.changePassword(passwordEncoder.encode(param.get("password")));
-        user.changeNickname(param.get("nickname"));
-        userRepository.save(user);
-        return ResponseEntity.ok()
-                .body(ResponseDto.success(null));
+        //기존의 비밀번호 다르면 401 error
+        if (!param.get("beforePassword").equals("")&&!passwordEncoder.matches(param.get("beforePassword"), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ResponseDto.fail("401", "기존 비밀번호 잘못 입력"));
+        }
+        else {
+            user.changePassword(passwordEncoder.encode(param.get("password")));
+            user.changeNickname(param.get("nickname"));
+            userRepository.save(user);
+            return ResponseEntity.ok()
+                    .body(ResponseDto.success(null));
+        }
     }
 
     @DeleteMapping("/users/{user_id}")
