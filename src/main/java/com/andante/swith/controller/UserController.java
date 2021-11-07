@@ -57,13 +57,13 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<ResponseDto> login(@RequestBody Map<String,String> param) {
         Map result = new HashMap<String,Object>();
-        User member = userRepository.findByEmail(param.get("email"))
+        User user = userRepository.findByEmail(param.get("email"))
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
-        if (!passwordEncoder.matches(param.get("password"), member.getPassword())) {
+        if (!passwordEncoder.matches(param.get("password"), user.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        result.put("jwt",jwtTokenProvider.createToken(member.getUsername(), member.getRoles()));
-        result.put("userId",member.getId());
+        result.put("jwt",jwtTokenProvider.createToken(user.getUsername(), user.getRoles()));
+        result.put("userId",user.getId());
         return ResponseEntity.ok()
                 .body(ResponseDto.success(result));
     }
@@ -80,7 +80,10 @@ public class UserController {
         User user = userRepository.findById(userId).get();
 
         //기존의 비밀번호랑 같은지 다른지랑  닉네임만 변경할 수 있도록 로직 넣기
-
+        if (!param.get("beforePassword").equals("")&&!passwordEncoder.matches(param.get("beforePassword"), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ResponseDto.fail("400", "올바르지 않은 인증번호"));
+        }
         user.changePassword(passwordEncoder.encode(param.get("password")));
         user.changeNickname(param.get("nickname"));
         userRepository.save(user);
@@ -98,8 +101,8 @@ public class UserController {
 
     @PostMapping("/users/report")
     public ResponseEntity<ResponseDto> reportUser(@RequestBody Map<String,Long> param) {
-        User user = userRepository.findById(param.get("user_id")).get();
-        User reportingUser = userRepository.findById(param.get("reporting_user_id")).get();
+        User user = userRepository.findById(param.get("userId")).get();
+        User reportingUser = userRepository.findById(param.get("reportingUserId")).get();
         Report report = Report.builder()
                 .reportingUser(reportingUser)
                 .user(user)
