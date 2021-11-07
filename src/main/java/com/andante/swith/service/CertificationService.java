@@ -24,6 +24,7 @@ public class CertificationService {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email); //스크립트에서 보낸 메일을 받을 사용자 이메일 주소
+        message.setFrom("dhtkdals0528@gmail.com");
         //입력 키를 위한 코드
         for(int i =0; i<3;i++) {
             int index=random.nextInt(25)+65; //A~Z까지 랜덤 알파벳 생성
