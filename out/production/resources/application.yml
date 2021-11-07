@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/swith?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://118.67.143.149:3306/swith?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
     username: root
-    password: min970528!
+    password: swith
   jpa:
     show-sql: true
     hibernate:
@@ -14,8 +14,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: dhtkdals0528@gmail.com
-    password: MIN970528!
+    username: "dhtkdals0528@gmail.com"
+    password: "MIN970528!"
     properties:
       mail:
         smtp:

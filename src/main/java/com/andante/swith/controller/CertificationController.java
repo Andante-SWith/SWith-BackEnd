@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ public class CertificationController {
 
     @PostMapping("/signup/certificate-email")
     public ResponseEntity<ResponseDto> certificate(@RequestBody Map<String,String> param) {
-        Boolean check = certificationService.selectCertificationByEmail(param.get("email"), param.get("certification_code"));
+        Boolean check = certificationService.selectCertificationByEmail(param.get("email"), param.get("certificationCode"));
         if(check==true) {
             return ResponseEntity.ok()
                     .body(ResponseDto.success(null));
