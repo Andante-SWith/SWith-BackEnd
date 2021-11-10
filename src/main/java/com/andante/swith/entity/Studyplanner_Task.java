@@ -49,4 +49,10 @@ public class Studyplanner_Task {
     @ColumnDefault("0")
     private Short complete;
 
+    public void updateStudyplanner(String taskDescription,LocalDateTime startDate,LocalDateTime endDate,Short complete) {
+        this.taskDescription = taskDescription;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.complete = complete;
+    }
 }
