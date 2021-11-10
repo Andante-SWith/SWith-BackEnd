@@ -49,4 +49,20 @@ public class StudyplannerController {
         return ResponseEntity.ok()
                 .body(ResponseDto.success(result));
     }
+
+    @DeleteMapping("planners/{user_id}/{task_id}")
+    public ResponseEntity<ResponseDto> deleteStudyplanner(@PathVariable("user_id") Long userId, @PathVariable("task_id") Long taskId) {
+        studyplanner_taskRepository.deleteById(taskId);
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(null));
+    }
+
+    @PutMapping("planners/{user_id}/{task_id}")
+    public ResponseEntity<ResponseDto> updateStudyplanner(@PathVariable("user_id") Long userId, @PathVariable("task_id") Long taskId, @RequestBody StudyplannerDto studyplannerDto) {
+        Studyplanner_Task studyplanner_task = studyplanner_taskRepository.findById(taskId).get();
+        studyplanner_task.updateStudyplanner(studyplannerDto.getTaskDescription(),studyplannerDto.getStartDate(),studyplannerDto.getEndDate(),studyplannerDto.getComplete());
+        studyplanner_taskRepository.save(studyplanner_task);
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(null));
+    }
 }
