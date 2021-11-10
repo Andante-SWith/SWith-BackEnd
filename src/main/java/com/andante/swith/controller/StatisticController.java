@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,9 +21,9 @@ public class StatisticController {
 
     @GetMapping("/statistics/{user_id}")
     public ResponseEntity<ResponseDto> getStatistics(@PathVariable("user_id") Long userId) {
-        Statistic statistic = statisticRepository.findByUser(userRepository.findById(userId).get()).get();
+        List<Statistic> statistics = statisticRepository.findByUser(userRepository.findById(userId).get()).get();
         return ResponseEntity.ok()
-                .body(ResponseDto.success(statistic));
+                .body(ResponseDto.success(statistics));
     }
     @PostMapping("/statistics")
     public ResponseEntity<ResponseDto> saveStatistics(@RequestBody StatisticDto statistic) {
