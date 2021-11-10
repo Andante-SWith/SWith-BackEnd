@@ -14,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 public class StudyplannerController {
@@ -32,16 +35,18 @@ public class StudyplannerController {
 
     @PostMapping("/planners/{user_id}")
     public ResponseEntity<ResponseDto> saveStudyplanner(@PathVariable("user_id") Long userId,@RequestBody StudyplannerDto studyplannerDto ) {
-
+        Map result = new HashMap<String,Object>();
         User user = userRepository.findById(userId).get();
         Studyplanner studyplanner = studyplannerRepository.findByUser(user).get();
-        studyplanner_taskRepository.save(Studyplanner_Task.builder()
+        Long studyplannerTaskId = studyplanner_taskRepository.save(Studyplanner_Task.builder()
                 .taskDescription(studyplannerDto.getTaskDescription())
-                .date(studyplannerDto.getDate())
+                .startDate(studyplannerDto.getStartDate())
+                .endDate(studyplannerDto.getEndDate())
                 .complete(studyplannerDto.getComplete())
                 .studyplanner(studyplanner)
-                .build());
+                .build()).getId();
+        result.put("taskId",studyplannerTaskId);
         return ResponseEntity.ok()
-                .body(ResponseDto.success(null));
+                .body(ResponseDto.success(result));
     }
 }

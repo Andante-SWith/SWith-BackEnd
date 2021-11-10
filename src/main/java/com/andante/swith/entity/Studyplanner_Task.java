@@ -1,5 +1,6 @@
 package com.andante.swith.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +10,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
@@ -24,6 +27,7 @@ public class Studyplanner_Task {
     @GeneratedValue
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "studyplanner_id")
     private Studyplanner studyplanner;
@@ -34,7 +38,11 @@ public class Studyplanner_Task {
 
     @NotNull
     @Column(nullable = false)
-    private Timestamp date;
+    private LocalDateTime startDate;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime endDate;
 
     @NotNull
     @Column(nullable = false)
