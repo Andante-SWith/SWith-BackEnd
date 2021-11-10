@@ -64,6 +64,7 @@ public class User implements UserDetails {
 
     private Timestamp ban_date;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user")
     private Studyplanner studyplanner;
 
@@ -123,6 +124,10 @@ public class User implements UserDetails {
     public void setStudyroom(Studyroom studyroom) {
         this.studyroom = studyroom;
         studyroom.getUsers().add(this);
+    }
+
+    public void setStudyplanner(Studyplanner studyplanner) {
+        this.studyplanner = studyplanner;
     }
 
     @ElementCollection(fetch = FetchType.EAGER)

@@ -3,7 +3,9 @@ package com.andante.swith.controller;
 import com.andante.swith.common.dto.ResponseDto;
 import com.andante.swith.config.security.JwtTokenProvider;
 import com.andante.swith.entity.Report;
+import com.andante.swith.entity.Studyplanner;
 import com.andante.swith.entity.User;
+import com.andante.swith.repository.StudyplannerRepository;
 import com.andante.swith.repository.UserRepository;
 import com.andante.swith.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,20 +26,22 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
+    private final StudyplannerRepository studyplannerRepository;
 
 
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signup(@RequestBody Map<String, String> param) {
 
-        userRepository.save(User.builder()
+        User user = userRepository.save(User.builder()
                 .email(param.get("email"))
                 .password(passwordEncoder.encode(param.get("password")))
                 .nickname(param.get("nickname"))
-                .banned((short)0)
-                .deleted((short)0)
+                .banned((short) 0)
+                .deleted((short) 0)
                 .createdDate(new Timestamp(System.currentTimeMillis()))
                 .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
                 .build());
+        studyplannerRepository.save(Studyplanner.builder().user(user).build());
         return ResponseEntity.ok()
                 .body(ResponseDto.success(null));
     }
