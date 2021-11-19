@@ -38,5 +38,7 @@ public class StudyroomDto {
 
     private Integer maxUserCount;
 
+    private Long masterId;
+
     private List<String> hashtag = new ArrayList<>();
 }

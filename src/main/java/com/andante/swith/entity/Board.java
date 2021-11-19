@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,4 +45,5 @@ public class Board {
     @Builder.Default
     @OneToMany(mappedBy="board", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
+
 }

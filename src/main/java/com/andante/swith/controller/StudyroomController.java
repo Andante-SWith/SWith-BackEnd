@@ -55,7 +55,8 @@ public class StudyroomController {
                     .secret(studyroomDto.getSecret())
                     .endDate(Timestamp.valueOf(studyroomDto.getEndDate()))
                     .createdDate(new Timestamp(System.currentTimeMillis()))
-                    .maxUserCount(4)
+                    .maxUserCount(studyroomDto.getMaxUserCount())
+                    .masterId(studyroomDto.getMasterId())
                     .build();
             studyroom.createHashtag();
             for(String hashtag:studyroomDto.getHashtag()) {
@@ -74,7 +75,8 @@ public class StudyroomController {
                     .secret(studyroomDto.getSecret())
                     .endDate(Timestamp.valueOf(studyroomDto.getEndDate()))
                     .createdDate(new Timestamp(System.currentTimeMillis()))
-                    .maxUserCount(4)
+                    .maxUserCount(studyroomDto.getMaxUserCount())
+                    .masterId(studyroomDto.getMasterId())
                     .build();
             studyroom.createHashtag();
             for(String hashtag:studyroomDto.getHashtag()) {
@@ -92,7 +94,7 @@ public class StudyroomController {
     @PatchMapping("/studyrooms/{studyroom_id}")
     public ResponseEntity<ResponseDto> updateStudyroom(@PathVariable("studyroom_id") Long studyroomId, @RequestBody StudyroomDto studyroomDto) {
         Studyroom findStudyroom = studyroomRepository.findById(studyroomId).get();
-        findStudyroom.updateStudyroom(studyroomDto.getTitle(),studyroomDto.getPurpose(),studyroomDto.getSecret(),studyroomDto.getPassword(),studyroomDto.getNotice(),Timestamp.valueOf(studyroomDto.getEndDate()));
+        findStudyroom.updateStudyroom(studyroomDto.getTitle(),studyroomDto.getPurpose(),studyroomDto.getSecret(),studyroomDto.getPassword(),studyroomDto.getNotice(),Timestamp.valueOf(studyroomDto.getEndDate()),studyroomDto.getMaxUserCount());
         findStudyroom.getHashtags().clear();
         for(String hashtag:studyroomDto.getHashtag()) {
             findStudyroom.getHashtags().add(Studyroom_Hashtag.builder()
