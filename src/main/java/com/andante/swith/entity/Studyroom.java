@@ -59,6 +59,10 @@ public class Studyroom {
     @Column(nullable = false)
     private Integer maxUserCount;
 
+    @NotNull
+    @Column(name = "master_id")
+    private Long masterId;
+
     @Builder.Default
     @OneToMany(mappedBy = "studyroom")
     private List<User> users = new ArrayList<>();
@@ -79,12 +83,14 @@ public class Studyroom {
         this.hashtags = new ArrayList<>();
     }
 
-    public void updateStudyroom(String title, String purpose, Short secret, String password, String notice, Timestamp endDate) {
+    public void updateStudyroom(String title, String purpose, Short secret, String password, String notice, Timestamp endDate, Integer maxUserCount) {
         this.title = title;
         this.purpose = purpose;
         this.secret = secret;
         this.password = password;
         this.notice = notice;
         this.endDate = endDate;
+        this.maxUserCount = maxUserCount;
     }
+
 }

@@ -55,4 +55,5 @@ public class Studyplanner_Task {
         this.endDate = endDate;
         this.complete = complete;
     }
+
 }

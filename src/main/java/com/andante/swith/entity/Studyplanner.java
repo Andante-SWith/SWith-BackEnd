@@ -33,4 +33,5 @@ public class Studyplanner {
     @Builder.Default
     @OneToMany(mappedBy = "studyplanner")
     private List<Studyplanner_Task> studyplanner_Tasks = new ArrayList<>();
+
 }

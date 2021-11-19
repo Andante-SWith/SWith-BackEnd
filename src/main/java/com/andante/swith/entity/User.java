@@ -173,4 +173,6 @@ public class User implements UserDetails {
     public void changeNickname(String nickname) {
         this.nickname = nickname;
     }
+
+
 }
