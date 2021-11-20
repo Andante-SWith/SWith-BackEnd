@@ -80,6 +80,12 @@ public class UserController {
         return ResponseEntity.ok()
                 .body(ResponseDto.success(user));
     }
+    @GetMapping("/users")
+    public ResponseEntity<ResponseDto> getUsers() {
+        List<User> all = userRepository.findAll();
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(all));
+    }
 
     @PatchMapping("/users/{user_id}")
     public ResponseEntity<ResponseDto> updateUser(@PathVariable("user_id") Long userId, @RequestBody Map<String,String> param) throws UnsupportedEncodingException {

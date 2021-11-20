@@ -24,7 +24,7 @@ public class Studyroom_Hashtag {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "studyroom_id")
     private Studyroom studyroom;
 
