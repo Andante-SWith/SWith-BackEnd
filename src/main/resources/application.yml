@@ -2,7 +2,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://118.67.143.149:3306/swith?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://118.67.143.149:3306/swith?useSSL=false&characterEncoding=utf8&useUnicode=true&serverTimezone=Asia/Seoul
     username: root
     password: swith
   jpa:
