@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,13 +45,13 @@ public class StudyroomController {
     }
 
     @PostMapping("/studyrooms")
-    public ResponseEntity<ResponseDto> saveStudyroom(@RequestBody StudyroomDto studyroomDto) {
+    public ResponseEntity<ResponseDto> saveStudyroom(@RequestBody StudyroomDto studyroomDto) throws UnsupportedEncodingException {
         Long studyroomId;
         if(studyroomDto.getSecret()==0) {
             Studyroom studyroom = Studyroom.builder()
-                    .title(studyroomDto.getTitle())
-                    .purpose(studyroomDto.getPurpose())
-                    .notice(studyroomDto.getNotice())
+                    .title(URLDecoder.decode(studyroomDto.getTitle(), "utf-8"))
+                    .purpose(URLDecoder.decode(studyroomDto.getPurpose(), "utf-8"))
+                    .notice(URLDecoder.decode(studyroomDto.getNotice(), "utf-8"))
                     .secret(studyroomDto.getSecret())
                     .endDate(Timestamp.valueOf(studyroomDto.getEndDate()))
                     .createdDate(new Timestamp(System.currentTimeMillis()))
@@ -60,16 +62,16 @@ public class StudyroomController {
             for(String hashtag:studyroomDto.getHashtag()) {
                 studyroom.getHashtags().add(Studyroom_Hashtag.builder()
                         .studyroom(studyroom)
-                        .hashtag(hashtag)
+                        .hashtag(URLDecoder.decode(hashtag, "utf-8"))
                         .build());
             }
             studyroomId = studyroomRepository.save(studyroom).getId();
         }
         else {
             Studyroom studyroom = Studyroom.builder()
-                    .title(studyroomDto.getTitle())
-                    .purpose(studyroomDto.getPurpose())
-                    .notice(studyroomDto.getNotice())
+                    .title(URLDecoder.decode(studyroomDto.getTitle(), "utf-8"))
+                    .purpose(URLDecoder.decode(studyroomDto.getPurpose(), "utf-8"))
+                    .notice(URLDecoder.decode(studyroomDto.getNotice(), "utf-8"))
                     .secret(studyroomDto.getSecret())
                     .endDate(Timestamp.valueOf(studyroomDto.getEndDate()))
                     .createdDate(new Timestamp(System.currentTimeMillis()))
@@ -80,7 +82,7 @@ public class StudyroomController {
             for(String hashtag:studyroomDto.getHashtag()) {
                 studyroom.getHashtags().add(Studyroom_Hashtag.builder()
                         .studyroom(studyroom)
-                        .hashtag(hashtag)
+                        .hashtag(URLDecoder.decode(hashtag, "utf-8"))
                         .build());
             }
             studyroomId = studyroomRepository.save(studyroom).getId();
@@ -90,14 +92,14 @@ public class StudyroomController {
     }
 
     @PatchMapping("/studyrooms/{studyroom_id}")
-    public ResponseEntity<ResponseDto> updateStudyroom(@PathVariable("studyroom_id") Long studyroomId, @RequestBody StudyroomDto studyroomDto) {
+    public ResponseEntity<ResponseDto> updateStudyroom(@PathVariable("studyroom_id") Long studyroomId, @RequestBody StudyroomDto studyroomDto) throws UnsupportedEncodingException {
         Studyroom findStudyroom = studyroomRepository.findById(studyroomId).get();
-        findStudyroom.updateStudyroom(studyroomDto.getTitle(),studyroomDto.getPurpose(),studyroomDto.getSecret(),studyroomDto.getPassword(),studyroomDto.getNotice(),Timestamp.valueOf(studyroomDto.getEndDate()),studyroomDto.getMaxUserCount());
+        findStudyroom.updateStudyroom(URLDecoder.decode(studyroomDto.getTitle(), "utf-8"),URLDecoder.decode(studyroomDto.getPurpose(), "utf-8"),studyroomDto.getSecret(),studyroomDto.getPassword(),URLDecoder.decode(studyroomDto.getNotice(), "utf-8"),Timestamp.valueOf(studyroomDto.getEndDate()),studyroomDto.getMaxUserCount());
         findStudyroom.getHashtags().clear();
         for(String hashtag:studyroomDto.getHashtag()) {
             findStudyroom.getHashtags().add(Studyroom_Hashtag.builder()
                     .studyroom(findStudyroom)
-                    .hashtag(hashtag)
+                    .hashtag(URLDecoder.decode(hashtag, "utf-8"))
                     .build());
         }
         studyroomRepository.save(findStudyroom);

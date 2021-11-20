@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -36,13 +37,12 @@ public class UserController {
         User user = userRepository.save(User.builder()
                 .email(param.get("email"))
                 .password(passwordEncoder.encode(param.get("password")))
-                .nickname(param.get("nickname"))
+                .nickname(URLDecoder.decode(param.get("nickname"), "utf-8"))
                 .banned((short) 0)
                 .deleted((short) 0)
                 .createdDate(new Timestamp(System.currentTimeMillis()))
                 .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
                 .build());
-        user.decoding(user.getNickname());
         studyplannerRepository.save(Studyplanner.builder().user(user).build());
         return ResponseEntity.ok()
                 .body(ResponseDto.success(null));
@@ -82,12 +82,12 @@ public class UserController {
     }
 
     @PatchMapping("/users/{user_id}")
-    public ResponseEntity<ResponseDto> updateUser(@PathVariable("user_id") Long userId, @RequestBody Map<String,String> param) {
+    public ResponseEntity<ResponseDto> updateUser(@PathVariable("user_id") Long userId, @RequestBody Map<String,String> param) throws UnsupportedEncodingException {
         User user = userRepository.findById(userId).get();
 
         //닉네임만 수정
         if(param.get("beforePassword").equals("")&&param.get("password").equals("")) {
-            user.changeNickname(param.get("nickname"));
+            user.changeNickname(URLDecoder.decode(param.get("nickname"), "utf-8"));
             userRepository.save(user);
             return ResponseEntity.ok()
                     .body(ResponseDto.success(null));
@@ -99,7 +99,7 @@ public class UserController {
         }
         else {
             user.changePassword(passwordEncoder.encode(param.get("password")));
-            user.changeNickname(param.get("nickname"));
+            user.changeNickname(URLDecoder.decode(param.get("nickname"), "utf-8"));
             userRepository.save(user);
             return ResponseEntity.ok()
                     .body(ResponseDto.success(null));

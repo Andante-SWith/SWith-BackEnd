@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,12 +36,12 @@ public class StudyplannerController {
     }
 
     @PostMapping("/planners/{user_id}")
-    public ResponseEntity<ResponseDto> saveStudyplanner(@PathVariable("user_id") Long userId,@RequestBody StudyplannerDto studyplannerDto ) {
+    public ResponseEntity<ResponseDto> saveStudyplanner(@PathVariable("user_id") Long userId,@RequestBody StudyplannerDto studyplannerDto ) throws UnsupportedEncodingException {
         Map result = new HashMap<String,Object>();
         User user = userRepository.findById(userId).get();
         Studyplanner studyplanner = studyplannerRepository.findByUser(user).get();
         Long studyplannerTaskId = studyplanner_taskRepository.save(Studyplanner_Task.builder()
-                .taskDescription(studyplannerDto.getTaskDescription())
+                .taskDescription(URLDecoder.decode(studyplannerDto.getTaskDescription(), "utf-8"))
                 .startDate(studyplannerDto.getStartDate())
                 .endDate(studyplannerDto.getEndDate())
                 .complete(studyplannerDto.getComplete())
@@ -58,9 +60,9 @@ public class StudyplannerController {
     }
 
     @PutMapping("planners/{user_id}/{task_id}")
-    public ResponseEntity<ResponseDto> updateStudyplanner(@PathVariable("user_id") Long userId, @PathVariable("task_id") Long taskId, @RequestBody StudyplannerDto studyplannerDto) {
+    public ResponseEntity<ResponseDto> updateStudyplanner(@PathVariable("user_id") Long userId, @PathVariable("task_id") Long taskId, @RequestBody StudyplannerDto studyplannerDto) throws UnsupportedEncodingException {
         Studyplanner_Task studyplanner_task = studyplanner_taskRepository.findById(taskId).get();
-        studyplanner_task.updateStudyplanner(studyplannerDto.getTaskDescription(),studyplannerDto.getStartDate(),studyplannerDto.getEndDate(),studyplannerDto.getComplete());
+        studyplanner_task.updateStudyplanner(URLDecoder.decode(studyplannerDto.getTaskDescription(), "utf-8"),studyplannerDto.getStartDate(),studyplannerDto.getEndDate(),studyplannerDto.getComplete());
         studyplanner_taskRepository.save(studyplanner_task);
         return ResponseEntity.ok()
                 .body(ResponseDto.success(null));
