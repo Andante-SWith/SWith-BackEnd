@@ -42,7 +42,6 @@ public class UserController {
                 .createdDate(new Timestamp(System.currentTimeMillis()))
                 .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
                 .build());
-        user.decoding(user.getNickname());
         studyplannerRepository.save(Studyplanner.builder().user(user).build());
         return ResponseEntity.ok()
                 .body(ResponseDto.success(null));
