@@ -176,4 +176,8 @@ public class User implements UserDetails {
         this.nickname = nickname;
     }
 
+    public void decoding(String nickname) throws UnsupportedEncodingException {
+        this.nickname = URLDecoder.decode(nickname, "utf-8");
+    }
+
 }
