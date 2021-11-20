@@ -5,6 +5,7 @@ import com.andante.swith.common.dto.StudyroomDto;
 import com.andante.swith.entity.Studyroom;
 import com.andante.swith.entity.Studyroom_Hashtag;
 import com.andante.swith.entity.User;
+import com.andante.swith.entity.User_Studyroom_History;
 import com.andante.swith.repository.StudyroomRepository;
 import com.andante.swith.repository.Studyroom_HashtagRepository;
 import com.andante.swith.service.StudyroomService;
@@ -14,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -114,5 +112,17 @@ public class StudyroomController {
                 .body(ResponseDto.success(null));
     }
 
+    @GetMapping("/studyrooms/master/{user_id}")
+    public ResponseEntity<ResponseDto> getMasterStudyroom(@PathVariable("user_id") Long masterId) {
+        Map result = new HashMap<String,Object>();
+        List<Long> ids = new ArrayList<>();
+        List<Studyroom> studyrooms = studyroomRepository.findByMasterId(masterId);
+        for(Studyroom st:studyrooms) {
+            ids.add(st.getId());
+        }
+        result.put("studyroomIds",ids);
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(result));
+    }
 }
 
