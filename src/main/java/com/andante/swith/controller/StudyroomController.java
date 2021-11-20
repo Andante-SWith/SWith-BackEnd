@@ -77,6 +77,7 @@ public class StudyroomController {
                     .createdDate(new Timestamp(System.currentTimeMillis()))
                     .maxUserCount(studyroomDto.getMaxUserCount())
                     .masterId(studyroomDto.getMasterId())
+                    .password(studyroomDto.getPassword())
                     .build();
             studyroom.createHashtag();
             for(String hashtag:studyroomDto.getHashtag()) {
