@@ -6,12 +6,12 @@ spring:
     username: root
     password: swith
   jpa:
-    show-sql: true
+#    show-sql: true
     hibernate:
-      ddl-auto: create
+#      ddl-auto: create
     properties:
       hibernate:
-        format_sql: true
+#        format_sql: true
   mail:
     host: smtp.gmail.com
     port: 587

@@ -8,7 +8,7 @@ spring:
   jpa:
     show-sql: false
     hibernate:
-      ddl-auto: create
+#      ddl-auto: create
     properties:
       hibernate:
         format_sql: false
@@ -23,7 +23,3 @@ spring:
           auth: true
           starttls:
             enable: true
-server:
-  servlet:
-    encoding:
-      charset: UTF-8

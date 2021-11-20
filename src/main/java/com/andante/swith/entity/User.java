@@ -46,6 +46,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String nickname;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "studyroom_id")
     private Studyroom studyroom;
@@ -70,50 +71,62 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user")
     private Studyplanner studyplanner;
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<User_Studyroom_History> user_studyroom_historys = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="to", cascade = ALL, orphanRemoval = true)
     private List<Follow> followers = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="from", cascade = ALL, orphanRemoval = true)
     private List<Follow> following = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Board> boards = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="to", cascade = ALL, orphanRemoval = true)
     private List<Notice> toNotices = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="from", cascade = ALL, orphanRemoval = true)
     private List<Notice> fromNotices = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Statistic> statistics = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Recommand> recommands = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="reportingUser", cascade = ALL, orphanRemoval = true)
     private List<Report> reportings = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
