@@ -1,5 +1,6 @@
 package com.andante.swith.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -26,7 +27,8 @@ public class Board {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -38,10 +40,12 @@ public class Board {
     @Column(nullable = false)
     private Timestamp createdDate;
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="board", cascade = ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="board", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
