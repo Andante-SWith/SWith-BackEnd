@@ -1,5 +1,6 @@
 package com.andante.swith.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,7 @@ public class Post {
     @GeneratedValue
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -64,4 +66,14 @@ public class Post {
     @Builder.Default
     @OneToMany(mappedBy="post", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
+
+    public void updatePost(String title, String contents) {
+        this.title = title;
+        this.contents = contents;
+    }
+
+    public void viewCountPlus() {
+        this.viewCount += 1;
+    }
+
 }
