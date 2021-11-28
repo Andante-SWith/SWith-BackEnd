@@ -61,10 +61,6 @@ public class Post {
 
     @Builder.Default
     @OneToMany(mappedBy="post", cascade = ALL, orphanRemoval = true)
-    private List<Recommand> recommands = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy="post", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
 
     public void updatePost(String title, String contents) {
