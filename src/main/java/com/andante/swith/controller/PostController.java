@@ -77,4 +77,5 @@ public class PostController {
         return ResponseEntity.ok()
                 .body(ResponseDto.success(post));
     }
+
 }

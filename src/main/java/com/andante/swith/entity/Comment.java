@@ -1,5 +1,6 @@
 package com.andante.swith.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,7 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
@@ -46,4 +48,8 @@ public class Comment {
     @Builder.Default
     @OneToMany(mappedBy="comment", cascade = ALL, orphanRemoval = true)
     private List<Report> reporteds = new ArrayList<>();
+
+    public void updateComment(String comment) {
+        this.comment = comment;
+    }
 }

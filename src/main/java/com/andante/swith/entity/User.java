@@ -10,8 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -115,11 +113,6 @@ public class User implements UserDetails {
     @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Statistic> statistics = new ArrayList<>();
-
-    @JsonIgnore
-    @Builder.Default
-    @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
-    private List<Recommand> recommands = new ArrayList<>();
 
     @JsonIgnore
     @Builder.Default

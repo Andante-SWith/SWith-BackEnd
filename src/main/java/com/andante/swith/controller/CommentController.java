@@ -28,36 +28,36 @@ public class CommentController {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
 
-//    @PostMapping("/boards/{board_id}/posts/{post_id}/comment")
-//    public ResponseEntity<ResponseDto> saveComment(@PathVariable("post_id") Long postId, @RequestBody Map<String,String> param) throws UnsupportedEncodingException {
-//        User user = userRepository.findById(Long.parseLong(param.get("userId"))).get();
-//        Post post = postRepository.findById(postId).get();
-//        commentRepository.save(Comment.builder()
-//                .createdDate(new Timestamp(System.currentTimeMillis()))
-//                .comment(URLDecoder.decode(param.get("content"), "utf-8"))
-//                .user(user)
-//                .post(post)
-//                .build());
-//        return ResponseEntity.ok()
-//                .body(ResponseDto.success(null));
-//    }
-//
-//    @DeleteMapping("/boards/{board_id}/posts/{post_id}/comment/{comment_id}")
-//    public ResponseEntity<ResponseDto> deleteComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId) {
-//        Post post = postRepository.findById(postId).get();
-//        Comment comment = commentRepository.findByPostAndId(post, commentId).get();
-//        commentRepository.delete(comment);
-//        return ResponseEntity.ok()
-//                .body(ResponseDto.success(null));
-//    }
-//
-//    @PutMapping("/boards/{board_id}/posts/{post_id}")
-//    public ResponseEntity<ResponseDto> updateComment(@PathVariable("board_id") Long boardId, @PathVariable("post_id") Long postId, @RequestBody Map<String,String> param) throws UnsupportedEncodingException {
-//        Board board = boardRepository.findById(boardId).get();
-//        Post post = postRepository.findByBoardAndId(board, postId).get();
-//        post.updatePost(URLDecoder.decode(param.get("title"), "utf-8"),URLDecoder.decode(param.get("content"), "utf-8"));
-//        postRepository.save(post);
-//        return ResponseEntity.ok()
-//                .body(ResponseDto.success(null));
-//    }
+    @PostMapping("/boards/{board_id}/posts/{post_id}/comment")
+    public ResponseEntity<ResponseDto> saveComment(@PathVariable("post_id") Long postId, @RequestBody Map<String,String> param) throws UnsupportedEncodingException {
+        User user = userRepository.findById(Long.parseLong(param.get("userId"))).get();
+        Post post = postRepository.findById(postId).get();
+        commentRepository.save(Comment.builder()
+                .createdDate(new Timestamp(System.currentTimeMillis()))
+                .comment(URLDecoder.decode(param.get("comment"), "utf-8"))
+                .user(user)
+                .post(post)
+                .build());
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(null));
+    }
+
+    @DeleteMapping("/boards/{board_id}/posts/{post_id}/comment/{comment_id}")
+    public ResponseEntity<ResponseDto> deleteComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId) {
+        Post post = postRepository.findById(postId).get();
+        Comment comment = commentRepository.findByPostAndId(post, commentId).get();
+        commentRepository.delete(comment);
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(null));
+    }
+
+    @PutMapping("/boards/{board_id}/posts/{post_id}/comment/{comment_id}")
+    public ResponseEntity<ResponseDto> updateComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId, @RequestBody Map<String,String> param) throws UnsupportedEncodingException {
+        Post post = postRepository.findById(postId).get();
+        Comment comment = commentRepository.findByPostAndId(post, commentId).get();
+        comment.updateComment(URLDecoder.decode(param.get("comment"), "utf-8"));
+        commentRepository.save(comment);
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(null));
+    }
 }

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -70,10 +69,6 @@ public class Studyroom {
     @Builder.Default
     @OneToMany(mappedBy = "studyroom", cascade = ALL, orphanRemoval = true)
     private List<Studyroom_Hashtag> hashtags = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "studyroom", cascade = ALL, orphanRemoval = true)
-    private List<Recommand> recommands = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy="studyroom", cascade = ALL, orphanRemoval = true)
