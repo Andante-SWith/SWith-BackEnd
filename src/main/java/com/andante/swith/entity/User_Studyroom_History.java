@@ -20,11 +20,11 @@ public class User_Studyroom_History {
     @Id @GeneratedValue
     private Long id;
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne
     @JoinColumn(name = "studyroom_id")
     private Studyroom studyroom;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
