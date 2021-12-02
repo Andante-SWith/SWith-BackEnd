@@ -141,5 +141,13 @@ public class StudyroomController {
         return ResponseEntity.ok()
                 .body(ResponseDto.success(null));
     }
+    
+    @GetMapping("/studyrooms/ban-user/{studyroom_id}")
+    public ResponseEntity<ResponseDto> getBanUser(@PathVariable("studyroom_id") Long studyroomId) {
+        Studyroom studyroom = studyroomRepository.findById(studyroomId).get();
+        List<BanUser> banUsers = banUserRepository.findByStudyroom(studyroom);
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(banUsers));
+    }
 }
 
