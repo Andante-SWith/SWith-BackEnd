@@ -63,10 +63,6 @@ public class Studyroom {
     private Long masterId;
 
     @Builder.Default
-    @OneToMany(mappedBy = "studyroom")
-    private List<User> users = new ArrayList<>();
-
-    @Builder.Default
     @OneToMany(mappedBy = "studyroom", cascade = ALL, orphanRemoval = true)
     private List<Studyroom_Hashtag> hashtags = new ArrayList<>();
 

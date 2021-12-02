@@ -28,12 +28,12 @@ public class Comment {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @JsonIgnore
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 
