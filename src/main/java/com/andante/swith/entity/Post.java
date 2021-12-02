@@ -29,8 +29,7 @@ public class Post {
     @GeneratedValue
     private Long id;
 
-    @JsonIgnore
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

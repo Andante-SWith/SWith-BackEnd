@@ -2,12 +2,11 @@ package com.andante.swith.controller;
 
 import com.andante.swith.common.dto.ResponseDto;
 import com.andante.swith.common.dto.StudyroomDto;
-import com.andante.swith.entity.Studyroom;
-import com.andante.swith.entity.Studyroom_Hashtag;
-import com.andante.swith.entity.User;
-import com.andante.swith.entity.User_Studyroom_History;
+import com.andante.swith.entity.*;
+import com.andante.swith.repository.BanUserRepository;
 import com.andante.swith.repository.StudyroomRepository;
 import com.andante.swith.repository.Studyroom_HashtagRepository;
+import com.andante.swith.repository.UserRepository;
 import com.andante.swith.service.StudyroomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +25,11 @@ import java.util.stream.Stream;
 @Slf4j
 public class StudyroomController {
 
-//    private final StudyroomService studyroomService;
+
+    private final UserRepository userRepository;
     private final StudyroomRepository studyroomRepository;
     private final Studyroom_HashtagRepository studyroom_hashtagRepository;
+    private final BanUserRepository banUserRepository;
 
     @GetMapping("/studyrooms")
     public ResponseEntity<ResponseDto> getStudyrooms() {
@@ -126,6 +127,19 @@ public class StudyroomController {
         result.put("studyroomIds",ids);
         return ResponseEntity.ok()
                 .body(ResponseDto.success(result));
+    }
+
+    @PostMapping("/studyrooms/ban-user")
+    public ResponseEntity<ResponseDto> banUser(@RequestBody Map<String,Long> param) {
+        User user = userRepository.findById(param.get("userId")).get();
+        Studyroom studyroom = studyroomRepository.findById(param.get("studyroomId")).get();
+
+        BanUser banUser = banUserRepository.save(BanUser.builder()
+                .user(user)
+                .studyroom(studyroom)
+                .build());
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(null));
     }
 }
 

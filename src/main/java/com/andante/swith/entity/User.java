@@ -44,11 +44,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String nickname;
 
-    @JsonIgnore
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "studyroom_id")
-    private Studyroom studyroom;
-
     @NotNull
     @Column(nullable = false)
     private Timestamp createdDate;
@@ -127,11 +122,6 @@ public class User implements UserDetails {
     public void setUserStudyroomHistory(Studyroom studyroom) {
         User_Studyroom_History user_studyroom_history = new User_Studyroom_History(this, studyroom);
         getUser_studyroom_historys().add(user_studyroom_history);
-    }
-
-    public void setStudyroom(Studyroom studyroom) {
-        this.studyroom = studyroom;
-        studyroom.getUsers().add(this);
     }
 
     public void setStudyplanner(Studyplanner studyplanner) {
