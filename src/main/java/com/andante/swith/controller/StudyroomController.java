@@ -41,7 +41,6 @@ public class StudyroomController {
     @GetMapping("/studyrooms/{studyroom_id}")
     public ResponseEntity<ResponseDto> getStudyroom(@PathVariable("studyroom_id") Long studyroomId) {
         Studyroom studyroom = studyroomRepository.findById(studyroomId).get();
-        studyroom.addUser();
         studyroomRepository.save(studyroom);
         return ResponseEntity.ok()
                 .body(ResponseDto.success(studyroom));
