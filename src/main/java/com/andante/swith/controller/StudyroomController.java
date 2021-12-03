@@ -41,6 +41,17 @@ public class StudyroomController {
     @GetMapping("/studyrooms/{studyroom_id}")
     public ResponseEntity<ResponseDto> getStudyroom(@PathVariable("studyroom_id") Long studyroomId) {
         Studyroom studyroom = studyroomRepository.findById(studyroomId).get();
+        studyroom.addUser();
+        studyroomRepository.save(studyroom);
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(studyroom));
+    }
+
+    @GetMapping("/studyrooms/{studyroom_id}/out")
+    public ResponseEntity<ResponseDto> outStudyroom(@PathVariable("studyroom_id") Long studyroomId) {
+        Studyroom studyroom = studyroomRepository.findById(studyroomId).get();
+        studyroom.minusUser();
+        studyroomRepository.save(studyroom);
         return ResponseEntity.ok()
                 .body(ResponseDto.success(studyroom));
     }
@@ -57,6 +68,7 @@ public class StudyroomController {
                     .endDate(Timestamp.valueOf(studyroomDto.getEndDate()))
                     .createdDate(new Timestamp(System.currentTimeMillis()))
                     .maxUserCount(studyroomDto.getMaxUserCount())
+                    .userCount(0)
                     .masterId(studyroomDto.getMasterId())
                     .build();
             studyroom.createHashtag();
@@ -78,6 +90,7 @@ public class StudyroomController {
                     .createdDate(new Timestamp(System.currentTimeMillis()))
                     .maxUserCount(studyroomDto.getMaxUserCount())
                     .masterId(studyroomDto.getMasterId())
+                    .userCount(0)
                     .password(studyroomDto.getPassword())
                     .build();
             studyroom.createHashtag();
@@ -140,6 +153,14 @@ public class StudyroomController {
                 .build());
         return ResponseEntity.ok()
                 .body(ResponseDto.success(null));
+    }
+
+    @GetMapping("/studyrooms/ban-user/{studyroom_id}")
+    public ResponseEntity<ResponseDto> getBanUser(@PathVariable("studyroom_id") Long studyroomId) {
+        Studyroom studyroom = studyroomRepository.findById(studyroomId).get();
+        List<BanUser> banUsers = banUserRepository.findByStudyroom(studyroom);
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(banUsers));
     }
 }
 
