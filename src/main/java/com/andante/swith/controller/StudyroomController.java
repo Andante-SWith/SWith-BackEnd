@@ -47,6 +47,15 @@ public class StudyroomController {
                 .body(ResponseDto.success(studyroom));
     }
 
+    @GetMapping("/studyrooms/{studyroom_id}/enter")
+    public ResponseEntity<ResponseDto> enterStudyroom(@PathVariable("studyroom_id") Long studyroomId) {
+        Studyroom studyroom = studyroomRepository.findById(studyroomId).get();
+        studyroom.addUser();
+        studyroomRepository.save(studyroom);
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(null));
+    }
+    
     @GetMapping("/studyrooms/{studyroom_id}/out")
     public ResponseEntity<ResponseDto> outStudyroom(@PathVariable("studyroom_id") Long studyroomId) {
         Studyroom studyroom = studyroomRepository.findById(studyroomId).get();
