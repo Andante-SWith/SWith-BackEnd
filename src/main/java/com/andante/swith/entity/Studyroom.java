@@ -59,6 +59,10 @@ public class Studyroom {
     private Integer maxUserCount;
 
     @NotNull
+    @Column(nullable = false)
+    private Integer userCount;
+
+    @NotNull
     @Column(name = "master_id")
     private Long masterId;
 
@@ -82,6 +86,14 @@ public class Studyroom {
         this.notice = notice;
         this.endDate = endDate;
         this.maxUserCount = maxUserCount;
+    }
+
+    public void addUser() {
+        this.userCount += 1;
+    }
+
+    public void minusUser() {
+        this.userCount -= 1;
     }
 
 }
