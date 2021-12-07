@@ -2,22 +2,23 @@ package com.andante.swith.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.*;
+import static javax.persistence.CascadeType.ALL;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -43,6 +44,8 @@ public class User implements UserDetails {
     @NotNull
     @Column(nullable = false)
     private String nickname;
+
+    private String imageURL;
 
     @NotNull
     @Column(nullable = false)
@@ -71,16 +74,6 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @Builder.Default
-    @OneToMany(mappedBy="to", cascade = ALL, orphanRemoval = true)
-    private List<Follow> followers = new ArrayList<>();
-
-    @JsonIgnore
-    @Builder.Default
-    @OneToMany(mappedBy="from", cascade = ALL, orphanRemoval = true)
-    private List<Follow> following = new ArrayList<>();
-
-    @JsonIgnore
-    @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Board> boards = new ArrayList<>();
 
@@ -93,16 +86,6 @@ public class User implements UserDetails {
     @Builder.Default
     @OneToMany(mappedBy="user", cascade = ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
-
-    @JsonIgnore
-    @Builder.Default
-    @OneToMany(mappedBy="to", cascade = ALL, orphanRemoval = true)
-    private List<Notice> toNotices = new ArrayList<>();
-
-    @JsonIgnore
-    @Builder.Default
-    @OneToMany(mappedBy="from", cascade = ALL, orphanRemoval = true)
-    private List<Notice> fromNotices = new ArrayList<>();
 
     @JsonIgnore
     @Builder.Default

@@ -7,8 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -23,13 +25,9 @@ public class Follow {
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="from_user_id")
-    private User from;
+    private Long fromUserId;
 
-    @ManyToOne
-    @JoinColumn(name="to_user_id")
-    private User to;
+    private Long toUserId;
 
     @NotNull
     @Column(nullable = false)
@@ -38,11 +36,9 @@ public class Follow {
     @NotNull
     @Column(nullable = false)
     @ColumnDefault("0")
-    private Short approve;
+    private Integer approve;
 
-//    public Follow(User from, User to) {
-//        this.from = from;
-//        this.to = to;
-//        this.createdDate = new Timestamp(System.currentTimeMillis());
-//    }
+    public void updateApprove() {
+        this.approve = 1;
+    }
 }
