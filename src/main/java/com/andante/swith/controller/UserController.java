@@ -2,9 +2,12 @@ package com.andante.swith.controller;
 
 import com.andante.swith.common.dto.ResponseDto;
 import com.andante.swith.config.security.JwtTokenProvider;
+import com.andante.swith.entity.Post;
 import com.andante.swith.entity.Report;
 import com.andante.swith.entity.Studyplanner;
 import com.andante.swith.entity.User;
+import com.andante.swith.repository.FollowRepository;
+import com.andante.swith.repository.PostRepository;
 import com.andante.swith.repository.StudyplannerRepository;
 import com.andante.swith.repository.UserRepository;
 import com.andante.swith.service.UserService;
@@ -29,6 +32,8 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final StudyplannerRepository studyplannerRepository;
+    private final PostRepository postRepository;
+    private final FollowRepository followRepository;
 
 
     @PostMapping("/signup")
@@ -135,4 +140,15 @@ public class UserController {
                 .body(ResponseDto.success(null));
     }
 
+    @GetMapping("/user-info/{user_id}")
+    public ResponseEntity<ResponseDto> getPostAndFollow(@PathVariable("user_id") Long userId) {
+        Map result = new HashMap<String,Object>();
+        User user = userRepository.findById(userId).get();
+        int postCount = postRepository.findByUser(user).size();
+        int followingCount = followRepository.findByFromUserId(userId).stream().filter(follow -> follow.getApprove().equals(new Integer(1))).toArray().length;
+        result.put("postCount", postCount);
+        result.put("followingCount", followingCount);
+        return ResponseEntity.ok()
+                .body(ResponseDto.success(result));
+    }
 }
